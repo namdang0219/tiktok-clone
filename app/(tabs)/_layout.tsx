@@ -1,7 +1,6 @@
 import { Tabs } from "expo-router";
 import React from "react";
 import { IconSymbol } from "@/components/ui/IconSymbol";
-import { useColorScheme } from "@/hooks/useColorScheme";
 import {
 	AntDesign,
 	Entypo,
