@@ -8,7 +8,7 @@ import {
 	FlatList,
 	TextInput,
 } from "react-native";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import {
 	AntDesign,
@@ -30,6 +30,7 @@ const RecommendScreen = () => {
 	const { top, bottom } = useSafeAreaInsets();
 	const actionSheetRef = useRef<ActionSheetRef>(null);
 	const scheme = useColorScheme();
+	const [mainViewHeight, setMainViewHeight] = useState<number>(0);
 
 	return (
 		<>
@@ -324,12 +325,37 @@ const RecommendScreen = () => {
 					</View>
 				</View>
 
-				<Image
-					source={{
-						uri: "https://i.pinimg.com/736x/61/3a/2e/613a2e7a0145c066303d21efc1c71951.jpg",
-					}}
+				{/* main view  */}
+				<View
 					style={{ flex: 1 }}
-				/>
+					onLayout={({ nativeEvent }) =>
+						setMainViewHeight(nativeEvent.layout.height)
+					}
+				>
+					<FlatList
+						data={[1, 2, 3, 4, 5]}
+						pagingEnabled
+						showsVerticalScrollIndicator={false}
+						renderItem={() => (
+							<View
+								style={{
+									height: mainViewHeight,
+								}}
+							>
+								<Image
+									source={{
+										uri: "https://i.pinimg.com/736x/61/3a/2e/613a2e7a0145c066303d21efc1c71951.jpg",
+									}}
+									style={{
+										flex: 1,
+										height: height,
+										width: width,
+									}}
+								/>
+							</View>
+						)}
+					/>
+				</View>
 			</View>
 
 			<ActionSheet
@@ -403,6 +429,7 @@ const RecommendScreen = () => {
 										width: 35,
 										aspectRatio: "1/1",
 										borderRadius: 100,
+										marginTop: 4,
 									}}
 								/>
 
