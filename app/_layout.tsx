@@ -44,8 +44,8 @@ export default function RootLayout() {
 					/>
 					<Stack.Screen name="+not-found" />
 				</Stack>
-				<StatusBar style="light" />
 			</ThemeProvider>
+			<StatusBar style={colorScheme === "light" ? "dark" : "light"} />
 		</GestureHandlerRootView>
 	);
 }
