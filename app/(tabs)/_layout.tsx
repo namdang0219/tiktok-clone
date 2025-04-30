@@ -7,15 +7,27 @@ import {
 	FontAwesome5,
 	MaterialCommunityIcons,
 } from "@expo/vector-icons";
+import { useColorScheme } from "react-native";
+import { Colors } from "@/constants/Colors";
 
 export default function TabLayout() {
+	const scheme = useColorScheme();
+
 	return (
 		<Tabs
 			screenOptions={{
-				tabBarActiveTintColor: "white",
+				tabBarActiveTintColor:
+					scheme === "light"
+						? Colors.light.tintPink
+						: Colors.dark.tintPink,
 				tabBarInactiveTintColor: "gray",
 				headerShown: false,
-				tabBarStyle: { backgroundColor: "black" },
+				tabBarStyle: {
+					backgroundColor:
+						scheme === "light"
+							? Colors.light.background
+							: Colors.dark.background,
+				},
 			}}
 		>
 			<Tabs.Screen

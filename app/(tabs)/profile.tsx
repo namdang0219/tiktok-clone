@@ -22,6 +22,11 @@ import { Colors } from "@/constants/Colors";
 import { ThemedText } from "@/components/ThemedText";
 import ThemedView from "@/components/ThemedView";
 import Svg, { Path } from "react-native-svg";
+import Animated, {
+	useAnimatedStyle,
+	useSharedValue,
+	withTiming,
+} from "react-native-reanimated";
 
 const ProfileScreen = () => {
 	const scheme = useColorScheme();
@@ -113,13 +118,21 @@ const ProfileScreen = () => {
 		},
 	];
 
-	const tabWithIndex = profileTabs.map((tab, idx) => {
+	const [selectedTab, setSelectedTab] = useState<number>(0);
+
+	// Tab line animation
+	const tabWidth = width / profileTabs.length;
+	const leftAnim = useSharedValue(tabWidth / 4);
+
+	const animatedStyles = useAnimatedStyle(() => {
+		leftAnim.value = withTiming(tabWidth / 4 + selectedTab * tabWidth, {
+			duration: 300,
+		});
+
 		return {
-			index: idx,
-			...tab,
+			left: leftAnim.value,
 		};
 	});
-	// const [tabs, setTe]
 
 	return (
 		<SafeAreaView
@@ -398,31 +411,18 @@ const ProfileScreen = () => {
 							position: "relative",
 						}}
 					>
-						{profileTabs.map((tab) => (
+						{profileTabs.map((tab, idx) => (
 							<TouchableOpacity
 								key={tab.tabId}
 								onPress={() => {
-									// console.log(">> pressed");
-									// const newTabs = tabs.map((t) => {
-									// 	return {
-									// 		tabId: t.tabId,
-									// 		active:
-									// 			t.tabId === tab.tabId
-									// 				? true
-									// 				: false,
-									// 	};
-									// });
-									// setTabs(newTabs);
+									setSelectedTab(idx);
 								}}
 								style={{
 									width: width / profileTabs.length,
 									height: 40,
 									alignItems: "center",
 									justifyContent: "center",
-									// opacity:
-									// 	activeTab?.tabId === tab.tabId
-									// 		? 1
-									// 		: 0.2,
+									opacity: idx === selectedTab ? 1 : 0.2,
 								}}
 							>
 								{tab.icon}
@@ -430,18 +430,20 @@ const ProfileScreen = () => {
 						))}
 
 						{/* Tab active line */}
-						<View
-							style={{
-								position: "absolute",
-								height: 2,
-								width: width / profileTabs.length / 2,
-								left: width / profileTabs.length / 4,
-								bottom: 0,
-								backgroundColor:
-									scheme === "light"
-										? Colors.light.text
-										: Colors.dark.text,
-							}}
+						<Animated.View
+							style={[
+								{
+									position: "absolute",
+									height: 2,
+									width: tabWidth / 2,
+									bottom: 0,
+									backgroundColor:
+										scheme === "light"
+											? Colors.light.text
+											: Colors.dark.text,
+								},
+								animatedStyles,
+							]}
 						/>
 					</View>
 				</View>
