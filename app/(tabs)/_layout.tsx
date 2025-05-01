@@ -9,6 +9,7 @@ import {
 } from "@expo/vector-icons";
 import { useColorScheme } from "react-native";
 import { Colors } from "@/constants/Colors";
+import { StatusBar } from "expo-status-bar";
 
 export default function TabLayout() {
 	const scheme = useColorScheme();
@@ -81,6 +82,7 @@ export default function TabLayout() {
 			<Tabs.Screen
 				name="profile"
 				options={{
+					headerShown: true,
 					title: "プロフィール",
 					tabBarIcon: ({ color }) => (
 						<AntDesign size={24} name="user" color={color} />

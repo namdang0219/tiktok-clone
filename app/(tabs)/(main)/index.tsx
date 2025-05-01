@@ -4,13 +4,12 @@ import {
 	Dimensions,
 	TouchableOpacity,
 	FlatList,
-	Image,
+	StatusBar,
 } from "react-native";
 import React, { useState } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import VideoView from "@/components/layout/view/VideoView";
-import { StatusBar } from "expo-status-bar";
 
 const { width } = Dimensions.get("screen");
 
@@ -20,7 +19,7 @@ const RecommendScreen = () => {
 
 	return (
 		<>
-			<StatusBar style="light" />
+			<StatusBar barStyle="light-content" />
 			<View
 				style={{
 					flex: 1,
